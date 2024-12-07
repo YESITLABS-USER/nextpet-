@@ -2,109 +2,160 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from 'axios';
-import BASE_URL from '../../../../utils/constant'
+import BASE_URL from '../../../../utils/constant';
 import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-const ResetPassword = () => {
 
-  const [passworrd, setPassword] = useState(null);
-  const [cPassworrd, setCPassword] = useState(null);
+const ResetPassword = () => {
+  const [password, setPassword] = useState("");
+  const [cPassword, setCPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+  const [error, setError] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [doPasswordsMatch, setDoPasswordsMatch] = useState(false);
 
   const router = useRouter();
-
   const email = Cookies.get('email');
 
-  const SubmitForm = async (e) =>{
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/;
-    if (!(passwordRegex.test(passworrd))) {
-      setErrorMessage("Password must contain at least 6 characters, including uppercase letters, lowercase letters, numbers, and special characters.");
+    if (!passwordRegex.test(password)) {
+      setError("Password must contain at least 6 characters, including uppercase, lowercase, numbers, and special characters.");
       return;
     }
 
-    if(passworrd===cPassworrd){
-
-      const formData = new FormData();
-      if (email) {
-        formData.append("email", email);
-        console.log("emailemailemail",email);
-        
-      } else {
-          console.error("Error: Email cookie is not set or has expired.");
-          toast.error("Email Cookie Expired");
-          return;
-      }
-      
-      formData.append("password", passworrd);
-      formData.append("conform_password", cPassworrd);
-      
-      try {
-        await axios.post(`${BASE_URL}/api/user_password_create`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-  
-        toast.success("Password Updated!");
-        router.push('/user/sign-in')
-      } catch (error) {
-        console.error("Error during password update:", error); 
-        toast.error("Error updating password. Please try again.");
-      }  
-    }
-    else{
-      toast.error("Passwords NOT match");
+    if (password !== cPassword) {
+      toast.error("Passwords do not match");
       return;
     }
-  }
-  
+
+    if (!email) {
+      console.error("Email cookie is missing or expired.");
+      toast.error("Email cookie expired. Please try again.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("confirm_password", cPassword);
+
+    try {
+      await axios.post(`${BASE_URL}/api/user_password_create`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      toast.success("Password successfully updated!");
+      router.push('/user/sign-in');
+    } catch (error) {
+      console.error("Error updating password:", error);
+      toast.error("Failed to update password. Please try again.");
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    setIsPasswordValid(passwordRegex.test(value));
+    setDoPasswordsMatch(value === cPassword);
+  };
+
+  const handleCPasswordChange = (e) => {
+    const value = e.target.value;
+    setCPassword(value);
+    setDoPasswordsMatch(value === password);
+  };
+
   return (
-    <>
-     <main>
-        <div className="breeder-signinflow-wrap">
-          <div className="breeder-signinflow-inner">
-            <div className="breeder-signin-leftsec">
-              <Image src="/images/Nextpet-imgs/big-logo.svg" alt="" loading="lazy" width={270}
-            height={306}/>
-            </div>
-            <div className="breeder-signin-rightsec">
-              <form onSubmit={SubmitForm}>
-                <h1>Reset Password</h1>
-                <label className="login-lbl">
-                  <img src="/images/Nextpet-imgs/breeder-signin-imgs/pass-icon.svg" className="login-lbl-img"/>
-                  <input type={showPassword ? "text":"password"} className="login-txt" id="password" value={passworrd} onChange={(e)=>setPassword(e.target.value)} placeholder="New Password" required/>
+    <main>
+      <div className="breeder-signinflow-wrap">
+        <div className="breeder-signinflow-inner">
+          <div className="breeder-signin-leftsec">
+            <Image src="/images/Nextpet-imgs/big-logo.svg" alt="" loading="lazy" width={270} height={306} />
+          </div>
+          <div className="breeder-signin-rightsec">
+            <form onSubmit={handleSubmit}>
+              <h1>Reset Password</h1>
 
-                  <Image src={showPassword ? "/images/Nextpet-imgs/breeder-signin-imgs/eye-open.svg" : "/images/Nextpet-imgs/breeder-signin-imgs/eye-close.svg"} alt="Password" width={20} height={20} style={{ position: 'absolute', zIndex: 200, right: '10px', width: '50px',height: '14px', top: '17px', cursor: 'pointer' }} onClick={() => setShowPassword(!showPassword)}/>
+              <label className="login-lbl">
+                <img src="/images/Nextpet-imgs/breeder-signin-imgs/pass-icon.svg" className="login-lbl-img" alt="Password Icon" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="login-txt"
+                  placeholder="New Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  required
+                />
+                {password && (
+                  <Image
+                    src={isPasswordValid 
+                      ? "/images/Nextpet-imgs/breeder-signin-imgs/password-check-icon.svg"
+                      : "/images/Nextpet-imgs/breeder-signin-imgs/password-cross-icon.svg"}
+                    alt="Validation Icon"
+                    width={40}
+                    height={40}
+                    style={{ position: 'absolute', zIndex: 200, right: '27px',height: '20px', top: '14px' }}
+                  />
+                )}
+                <Image
+                  src={showPassword 
+                    ? "/images/Nextpet-imgs/breeder-signin-imgs/eye-open.svg"
+                    : "/images/Nextpet-imgs/breeder-signin-imgs/eye-close.svg"}
+                  alt="Toggle Password Visibility"
+                  width={20}
+                  height={20}
+                  style={{ position: 'absolute', zIndex: 200, right: '15px',height: '14px', top: '17px', cursor: 'pointer' }}
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              </label>
 
-                  {/* <div className="password-eye"><i className="fas fa-eye-slash" id="eye"></i></div> */}
-                  {/* <div className="checkicon-pass">
-                    <img src="/images/Nextpet-imgs/breeder-signin-imgs/password-check-icon.svg" alt=""/>
-                  </div> */}
-                </label>
-                <label className="login-lbl">
-                  <img src="/images/Nextpet-imgs/breeder-signin-imgs/pass-icon.svg" className="login-lbl-img"/>
-                  <input type={showPassword2 ? "text":"password"} className="login-txt" id="password2" value={cPassworrd} onChange={(e)=>setCPassword(e.target.value)} placeholder="Confirm New Password" required/>
+              <label className="login-lbl">
+                <img src="/images/Nextpet-imgs/breeder-signin-imgs/pass-icon.svg" className="login-lbl-img" alt="Password Icon" />
+                <input
+                  type={showPassword2 ? "text" : "password"}
+                  className="login-txt"
+                  placeholder="Confirm New Password"
+                  value={cPassword}
+                  onChange={handleCPasswordChange}
+                  required
+                />
+                {cPassword && (
+                  <Image
+                    src={doPasswordsMatch 
+                      ? "/images/Nextpet-imgs/breeder-signin-imgs/password-check-icon.svg"
+                      : "/images/Nextpet-imgs/breeder-signin-imgs/password-cross-icon.svg"}
+                    alt="Validation Icon"
+                    width={40}
+                    height={40}
+                    style={{ position: 'absolute', zIndex: 200, right: '27px',height: '20px', top: '14px' }}
+                  />
+                )}
+                <Image
+                  src={showPassword2 
+                    ? "/images/Nextpet-imgs/breeder-signin-imgs/eye-open.svg"
+                    : "/images/Nextpet-imgs/breeder-signin-imgs/eye-close.svg"}
+                  alt="Toggle Password Visibility"
+                  width={20}
+                  height={20}
+                  style={{ position: 'absolute', zIndex: 200, right: '15px',height: '14px', top: '17px', cursor: 'pointer' }}
+                  onClick={() => setShowPassword2(!showPassword2)}
+                />
+              </label>
 
-                  <Image src={showPassword2 ? "/images/Nextpet-imgs/breeder-signin-imgs/eye-open.svg" : "/images/Nextpet-imgs/breeder-signin-imgs/eye-close.svg"} alt="Password" width={20} height={20} style={{ position: 'absolute', zIndex: 200, right: '10px', width: '50px',height: '14px', top: '17px', cursor: 'pointer' }} onClick={() => setShowPassword2(!showPassword2)}/>
+              {error && <span className="error-msg" style={{ color: 'red' }}>{error}</span>}
 
-
-                  {/* <div className="password-eye"><i className="fas fa-eye-slash" id="eye2"></i></div> */}
-                  {/* <div className="checkicon-pass">
-                    <img src="/images/Nextpet-imgs/breeder-signin-imgs/password-cross-icon.svg" alt=""/>
-                  </div> */}
-                </label>
-                <input type="submit" className="login-btn" value="Reset Password"/>
-              </form>
-            </div>
+              <input type="submit" className="login-btn" value="Reset Password" />
+            </form>
           </div>
         </div>
+      </div>
     </main>
-    </>
-  )
-}
+  );
+};
 
 export default ResetPassword;

@@ -148,7 +148,7 @@ const Homenearyou = ({ slides, onLike }) => {
                             className="active"
                           />
                         )}
-                        <span>{slide.total_like ? slide.total_like : 0}</span>
+                        <span style={{left: '50%', transform: 'translateX(-50%)', textAlign: 'center'}}>{slide.total_like ? slide.total_like : 0}</span>
                       </div>
                     </div>
                     <div className="newyear-content-card">
@@ -174,8 +174,8 @@ const Homenearyou = ({ slides, onLike }) => {
                               width={20}
                               height={20} className="bg-white p-2" style={{boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)', borderRadius:"50%"}}
                             />
-                            <div className="mail-count pt-[2px] px-2" style={{ cursor: 'pointer' }}>
-                              <span>{slide.total_contact ? slide.total_contact : 0}</span>
+                            <div className="mail-count" style={{ cursor: 'pointer' }}>
+                              <span  style={{left: '50%', transform: 'translateX(-50%)', textAlign: 'center'}}>{slide.total_contact ? slide.total_contact : 0}</span>
                             </div>
                           </div>
                         ) : (

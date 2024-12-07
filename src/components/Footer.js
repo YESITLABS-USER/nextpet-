@@ -1,9 +1,10 @@
 "use client";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Script from "next/script";
 import React, { useEffect, useState } from "react";
 import BASE_URL from "../app/utils/constant";
 import axios from "axios";
 import Image from "next/image";
-import Script from "next/script";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -114,16 +115,34 @@ function Footer() {
         </div>
       </footer>
 
-      <Script src="/js/jquery.js" strategy="beforeInteractive" />
+      {/* <Script src="/js/jquery.js" strategy="beforeInteractive" />
       <Script src="/js/bootstrap.min.js" strategy="beforeInteractive" />
       <Script src="/js/custom.js" strategy="beforeInteractive" />
       <Script src="/js/owl-slider.js" strategy="beforeInteractive" />
       <Script src="/js/animation.js" strategy="beforeInteractive" />
-      {/* <Script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" strategy="beforeInteractive" /> */}
-      {/* <Script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"/> */}
-      <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" />
+      <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" /> */}
+
+      {/* Additional  */}
+      {/* Load jQuery before Bootstrap, only if necessary */}
+      <Script src="/js/jquery.js" strategy="afterInteractive" />
+      
+      {/* Load Bootstrap JS only once and after the page is interactive */}
+      <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"  strategy="afterInteractive" />
+      
+      {/* Load other custom scripts after page load */}
+      <Script src="/js/custom.js" strategy="afterInteractive" />
+      <Script src="/js/owl-slider.js" strategy="afterInteractive" />
+      <Script src="/js/animation.js" strategy="afterInteractive" />
+      
+      {/* Optionally include external libraries only after the page is interactive */}
+      {/* <Script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" strategy="afterInteractive" /> */}
+      {/* <Script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" strategy="afterInteractive" /> */}
+      
     </>
   );
 }
 
 export default Footer;
+
+{/* <Script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" strategy="beforeInteractive" /> */}
+{/* <Script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"/> */}

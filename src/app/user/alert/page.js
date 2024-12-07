@@ -8,6 +8,7 @@ import Modal from "react-modal";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import ProtectedRoute from "../../context/ProtectedRoute";
+import GooglePlacesAutocomplete from '../../../components/GooglePlacesAutocomplete'
 
 const Alert = () => {
   const [userId, setUserId] = useState(null);
@@ -23,6 +24,12 @@ const Alert = () => {
   const [additionalRequestWeb, setAdditionalRequestWeb] = useState([]);
   const [breeds_typss, setBreedTypeInOption] = useState({ breed_type: [] });
   const [edit, setEdit] = useState(false);
+
+  const handleLocationSelect = (lat, lng, address) => {
+    setLatitude(lat || '35.1258');
+    setLongitude(lng || '17.9859');
+    setAddress(address);
+  };
 
   const customStyles = {
     content: {
@@ -97,16 +104,16 @@ const Alert = () => {
       }
     };
 
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(({ coords }) => {
-        const { latitude, longitude } = coords;
-        setLatitude(latitude);
-        setLongitude(longitude);
-      });
-    } else {
-      setLatitude(35.1258);
-      setLongitude(17.9859);
-    }
+    // if ("geolocation" in navigator) {
+    //   navigator.geolocation.getCurrentPosition(({ coords }) => {
+    //     const { latitude, longitude } = coords;
+    //     setLatitude(latitude);
+    //     setLongitude(longitude);
+    //   });
+    // } else {
+    //   setLatitude(35.1258);
+    //   setLongitude(17.9859);
+    // }
     setAlertsGet();
     additionalRequest();
   }, [userId]);
@@ -289,14 +296,15 @@ const Alert = () => {
                           </div>
                         </div>
                         <label for="">
-                          <input
+                          {/* <input
                             type="text"
                             placeholder="Enter location"
                             required
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
                             disabled={!edit}
-                          />
+                          /> */}
+                          <GooglePlacesAutocomplete onLocationSelect={handleLocationSelect} edit={edit} getAddress={address} />                          
                           <img
                             src="/images/Nextpet-imgs/all-icons/location.svg"
                             className="location-set"

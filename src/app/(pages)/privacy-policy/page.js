@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import BASE_URL from "../../utils/constant";
 import axios from "axios";
-
+import BreederGuide from '../../../components/BreederGuide'
 const PrivacyPolicy = () => {
   const [privacyPolicy, setPrivacyPolicy] = useState([]);
 
@@ -48,6 +48,7 @@ const PrivacyPolicy = () => {
 
   return (
     <>
+    <BreederGuide />
       <div className="terms-privacy-wrap">
         <div className="container">
           <div className="row">

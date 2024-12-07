@@ -19,7 +19,7 @@ const Subscription = () => {
   const plans = [
     {
       name: "free",
-      price: "$0",
+      price: "0",
       description: "First 6 posts are free",
       description_1:
         "It was popularised in the 1960s with the release of Letraset sheets.",
@@ -88,7 +88,7 @@ const Subscription = () => {
                             {plan.name.charAt(0).toUpperCase() +
                               plan.name.slice(1)}
                           </span>
-                          <h2>{plan.price}</h2>
+                          <h2>{`$`} {plan.price}</h2>
                           <span>Month</span>
                           {plan.name === "free" && (
                             <div className="active-band">

@@ -141,9 +141,6 @@ const Post = () => {
     return formattedDate;
   }
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
   return (
     <>
       <BreederProtectedRoute>
@@ -205,12 +202,17 @@ const Post = () => {
                     </div>
 
                     <div className="all-posts-cards">
-                      {currentPosts.map((post) => (
+                      {loading && 
+                        <div>
+                          loading ....
+                        </div>}
+                      { }
+                      {currentPosts.length > 0 && currentPosts.map((post) => (
                         <div className="post-cards-wrap" key={post.post_id}>
                           <div className="post-cardsimg-wrap relative">
                             <span style={{position:'absolute', top:'5px', left:'5px', fontSize:'12px', color:'gray'}}> {formatDate(post?.created_at)} </span>
                             <Image
-                              src={post.image[0]}
+                              src={post.image[0] || "/images/Nextpet-imgs/Image_not_available.webp"}
                               alt="image"
                               loading="lazy"
                               width={265}

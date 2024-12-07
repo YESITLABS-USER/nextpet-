@@ -81,6 +81,9 @@ const VerificationCode = () => {
         const expireDate = new Date(new Date().getTime() + 1800 * 1000);
         Cookies.set('otp_email', response.data.otp, { expires: expireDate });
       }
+    } else{
+      setError('Otp Send Error. Please try again later')
+      console.log('Error in Sending OTP')
     }
   }
  
@@ -161,7 +164,7 @@ const VerificationCode = () => {
               {isExpired ? (
                 <p className="pb-2">
                 Didn&apos;t receive the verification code? <br />
-                <span onClick={handleResendOtp} style={{ color: "#FFC21A", fontWeight: 600 }}>RESEND</span>
+                <span onClick={handleResendOtp} style={{ color: "#FFC21A", fontWeight: 600, cursor:'pointer' }}>RESEND</span>
               </p>
               ) : (
                 <p> Resend OTP in <span>{Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, '0')}</span> sec</p>

@@ -292,7 +292,7 @@ const Breeder = () => {
                     <div className="rating-wrap">
                       <span>
                         {/* {item?.star_rating || 0}&nbsp;{" "} */}
-                        {(Math.round((parseFloat(item?.star_rating || "0")) * 10) / 10).toFixed(1) || 0} &nbsp;
+                        {(Math.round((parseFloat(item?.star_rating || "5")) * 10) / 10).toFixed(1) || 0} &nbsp;
                         <FaStar
                           style={{
                             color: "white",
@@ -326,14 +326,14 @@ const Breeder = () => {
                     </div>
                   </div>
 
-                  <p>
-                    {item?.bio && item?.bio.length > 50
-                      ? item?.bio.slice(0, 30) + "..."
-                      : item?.bio}
+                  <p className="pt-1">
+                  {item?.bio && item?.bio.length > 50 
+                  ? item.bio.slice(0, 30) + "..." : item?.bio || "No Description available"}
+
                   </p>
 
                   <div className="viewmore-wrap">
-                    <h4>11 active posts</h4>
+                    <h4>{item?.breeder_post_count} active posts</h4>
                     <div className="action-wrap">
                       <a
                       // router.push(`/user/breeder-profile/${slide.breeder_id}/${likeId} `)

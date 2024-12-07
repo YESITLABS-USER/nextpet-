@@ -145,7 +145,7 @@ const HomeRecentlyPostedSlider = ({ slides, onClick }) => {
                              height={20}
                            />
                          )}
-                         <span>{slide.total_like ? slide.total_like : "0"}</span>
+                         <span  style={{left: '50%', transform: 'translateX(-50%)', textAlign: 'center'}}>{slide.total_like ? slide.total_like : "0"}</span>
                        </div>
                      </div>
                      <div className="recentposted-content-card">
@@ -181,7 +181,7 @@ const HomeRecentlyPostedSlider = ({ slides, onClick }) => {
                              height={20}
                            />
                            <div className="mail-count pt-1" data-bs-target="#previous-information" data-bs-toggle="modal">
-                             <span>{slide.total_contact ? slide.total_contact : "0"}</span>
+                             <span  style={{left: '50%', transform: 'translateX(-50%)', textAlign: 'center'}}>{slide.total_contact ? slide.total_contact : "0"}</span>
                            </div>
                          </div>
                        </div>

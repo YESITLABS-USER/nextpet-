@@ -7,6 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import BASE_URL from "../../utils/constant";
 import ProtectedRoute from "../../context/ProtectedRoute";
+import GooglePlacesAutocomplete from "@/src/components/GooglePlacesAutocomplete";
 
 const UserDashboard = () => {
   const [userId, setUserId] = useState(null);
@@ -22,6 +23,12 @@ const UserDashboard = () => {
     location: "",
     image: null,
   });
+
+  const handleLocationSelect = (lat, lng, address) => {
+    setLatitude(lat);
+    setLongitude(lng);
+    setFormData((prev) => ({ ...prev, location: address }));  
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -66,18 +73,18 @@ const UserDashboard = () => {
           console.log(error.message);
         });
     };
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(({ coords }) => {
-        const { latitude, longitude } = coords;
-        console.log("Latitude ::", latitude, "Longitude ::", longitude);
-        setLatitude(latitude);
-        setLongitude(longitude);
-      });
-    } else {
-      setLatitude(35.1258);
-      setLongitude(17.9859);
-      console.log("Not Allow location");
-    }
+    // if ("geolocation" in navigator) {
+    //   navigator.geolocation.getCurrentPosition(({ coords }) => {
+    //     const { latitude, longitude } = coords;
+    //     console.log("Latitude ::", latitude, "Longitude ::", longitude);
+    //     setLatitude(latitude);
+    //     setLongitude(longitude);
+    //   });
+    // } else {
+    //   setLatitude(35.1258);
+    //   setLongitude(17.9859);
+    //   console.log("Not Allow location");
+    // }
 
     loadUser();
   }, [userId]);
@@ -85,24 +92,18 @@ const UserDashboard = () => {
   const handleSubmit = async () => {
     console.log("Form Submitted:", formData);
     const { name, email, phone, location, image } = formData;
-    let finalLatitude = latitude === null ? 35.1258 : latitude;
-    let finalLongitude = longitude === null ? 17.9859 : longitude;
-
-    console.log(
-      "Final Latitude ::",
-      finalLatitude,
-      "Final Longitude ::",
-      finalLongitude
-    );
-
+    let finalLatitude = latitude ? latitude : (formData?.latitude || "35.1258");
+    let finalLongitude = longitude ? longitude : (formData?.longitude || "17.9859");
+    
     console.log(
       "name, email, phone,location, image",
       name,
       email,
       phone,
       location,
-      image
+      (image && image)
     );
+  
     try {
       const response = await axios.post(
         `${BASE_URL}/api/profile_update`,
@@ -114,7 +115,7 @@ const UserDashboard = () => {
           location: location,
           latitude: finalLatitude,
           longitude: finalLongitude,
-          image: image,
+          image
         },
         {
           headers: {
@@ -122,15 +123,16 @@ const UserDashboard = () => {
           },
         }
       );
-
+  
       console.log("Response:", response.data);
+      toast.success("Profile Updated Successfully");
+      setMakeEditable(false);
     } catch (error) {
       console.log("Error config:", error);
+      toast.error("Failed to update profile. Please try again.");
     }
-
-    toast.success("Profile Updated Successfully");
-    setMakeEditable(false);
   };
+  
 
   const userPages = {
     page: "profile",
@@ -290,7 +292,7 @@ const UserDashboard = () => {
                           width={15}
                           height={15}
                         />
-                        <input
+                        {/* <input
                           type="text"
                           name="location"
                           defaultValue={formData?.location || ""}
@@ -298,7 +300,8 @@ const UserDashboard = () => {
                           placeholder="Location*"
                           disabled={!makeEditable}
                           required
-                        />
+                        /> */}
+                        <GooglePlacesAutocomplete onLocationSelect={handleLocationSelect} edit={makeEditable} getAddress={formData?.location || ""} />                          
                       </label>
 
                       {makeEditable && (

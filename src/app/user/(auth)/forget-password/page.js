@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -9,16 +9,23 @@ import BASE_URL from '../../../utils/constant'
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState('');
-  const [validation_error, validationError] = useState('');
+  const [validation_error, setValidationError] = useState('');
+  const router = useRouter();
   //Res
 
-  const router = useRouter();
+  useEffect(() => {
+    if(email){
+      setValidationError('');
+    }
+  },[email])
+  
   const handleEmailVarification = async (e) => {
     e.preventDefault()
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    if (!(emailRegex.test(email))) {
-      validationError("Invalid email Address ");
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Strict email validation
+    const phoneRegex = /^(?!\+1)[2-9]\d{2}[-.\s]?\d{3}[-.\s]?\d{4}$/; // U.S. phone numbers without +1 prefix
+    
+    if (!(emailRegex.test(email) || phoneRegex.test(email))) {
+      setValidationError("Invalid Email address or U.S. phone number. Ensure the phone number does not include '+1'.");
       return;
     } 
  
@@ -35,7 +42,7 @@ const ForgetPassword = () => {
       //Login Successfully!!
       // console.log(response.data);
       if(response.data.code!==200){
-        validationError(response.data.message);
+        setValidationError(response.data.message);
         // console.log(response.data.message);
       }
       else{
@@ -66,7 +73,7 @@ const ForgetPassword = () => {
               <h1> Forgot Password</h1>
               <label for="" className="login-lbl">
                 <Image src="/images/Nextpet-imgs/breeder-signin-imgs/mail-icon.svg" className="login-lbl-img" alt="" width={50} height={15}/>
-                <input type="email" className="login-txt" onChange={(e) => setEmail(e.target.value)} placeholder="Email/Phone" required/>
+                <input type="text" className="login-txt" onChange={(e) => setEmail(e.target.value)} placeholder="Email/Phone" required/>
               </label>
               <span style={{ color: 'red'}}>{validation_error}</span>
               <input type="submit" className="login-btn" value="Send Verification"/>

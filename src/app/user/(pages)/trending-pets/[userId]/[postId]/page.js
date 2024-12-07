@@ -15,6 +15,10 @@ import {
 } from "../../../../../services/user/post";
 import moment from "moment";
 import ProtectedRoute from "../../../../../context/ProtectedRoute";
+import Image from "next/image";
+import BASE_URL from "@/src/app/utils/constant";
+import axios from "axios";
+import { FaRegStar, FaStar } from "react-icons/fa";
 
 const ContactPetDetails2 = () => {
   const { postId, userId } = useParams();
@@ -23,12 +27,42 @@ const ContactPetDetails2 = () => {
   const [showUserNotes, setUserNotes] = useState();
   const [addNotes, setAddNotes] = useState();
   const [rattinData, setRatingData] = useState({});
-  // const [userStatusNotesLeadsUpdateData, setUserStatusNotesLeadsUpdateData] = useState();
-
-  // const [bidrAllRate, setBidrAllRate] = useState([]);
-  // console.log(bidrAllRate, "bidder rate data");
-
   const [postData, setPostData] = useState("");
+
+  async function likeHandler() {
+    const updatedLikeStatus = postData?.check_like == "0"? false : true; // Toggle the like status
+    const payload = {
+      user_id: userId,
+      post_id: postData?.post_id,
+      breeder_id: postData?.user_id,
+      like_post: updatedLikeStatus ? 1 : 111,
+    };
+  
+    try {
+      const response = await axios.post(`${BASE_URL}/api/like_post`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (response.data.code === 200) { // Check for a successful response
+        console.log("response like", response);
+  
+        // Update the local state for postData to reflect the new like status
+        setPostData((prevPostData) => ({
+          ...prevPostData,
+          check_like: updatedLikeStatus,
+          likes_count: updatedLikeStatus
+            ? prevPostData.likes_count + 1
+            : prevPostData.likes_count - 1,
+        }));
+      }
+    } catch (error) {
+      console.log(error || "Post Like Error");
+    }
+  }
+  
+  
   useEffect(() => {
     PostDetailGet();
     UserShowNotesFun();
@@ -171,105 +205,59 @@ const ContactPetDetails2 = () => {
 
   console.log("rattinData", rattinData.communication_rating);
 
-  let communication_rating = [];
-  for (let i = 1; i <= 5; i++) {
-    const starSrc =
-      i <= rattinData.communication_rating
-        ? "/images/Nextpet-imgs/contacted-imgs/star.svg"
-        : "/images/Nextpet-imgs/contacted-imgs/mail.svg"; // Adjust empty star path
-
-    communication_rating.push(
-      <img
-        key={i} // Add a unique key for each element
-        onClick={() => PolitenessRaTing(3, i)}
-        src={starSrc}
-        alt="Star"
-      />
-    );
-  }
-
   let politeness_rating = [];
   for (let i = 1; i <= 5; i++) {
-    const starSrc =
-      i <= rattinData.politeness_rating
-        ? "/images/Nextpet-imgs/contacted-imgs/star.svg"
-        : "/images/Nextpet-imgs/contacted-imgs/mail.svg"; // Adjust empty star path
-
+    const starSrc = i <= rattinData.politeness_rating ?  <FaStar style={{ color:'#ECA609'}} /> : <FaRegStar style={{ color:'#ECA609'}} /> // Adjust empty star path
     politeness_rating.push(
-      <img
-        key={i}
-        onClick={() => PolitenessRaTing(1, i)}
-        src={starSrc}
-        alt="Star"
-      />
+      <div key={i} onClick={() => PolitenessRaTing(1, i)} style={{ cursor: "pointer" }}>
+        {starSrc}
+      </div>
     );
   }
 
   let responsive_rating = [];
   for (let i = 1; i <= 5; i++) {
-    const starSrc =
-      i <= rattinData.responsive_rating
-        ? "/images/Nextpet-imgs/contacted-imgs/star.svg"
-        : "/images/Nextpet-imgs/contacted-imgs/mail.svg";
-
+    const starSrc = i <= rattinData.responsive_rating ?  <FaStar style={{ color:'#ECA609'}} /> : <FaRegStar style={{ color:'#ECA609'}} />
     responsive_rating.push(
-      <img
-        key={i}
-        onClick={() => PolitenessRaTing(2, i)}
-        src={starSrc}
-        alt="Star"
-      />
+      <div key={i} onClick={() => PolitenessRaTing(2, i)} style={{ cursor: "pointer" }} >
+        {starSrc}
+      </div>
     );
   }
 
-  console.log(communication_rating);
+  let communication_rating = [];
+  for (let i = 1; i <= 5; i++) {
+    const starSrc = i <= rattinData.communication_rating ?  <FaStar style={{ color:'#ECA609'}} /> : <FaRegStar style={{ color:'#ECA609'}} />
+    communication_rating.push(
+      <div key={i} onClick={() => PolitenessRaTing(3, i)} style={{ cursor: "pointer" }}>
+        {starSrc}
+      </div>
+    );
+  }
 
-  //
+  const getFullUrl = () => {
+    if (typeof window !== "undefined") {
+      return window.location.href; // Returns full URL
+    }
+    return '';
+  };
 
-  //
-  // code written by rajan
-  // get rating
-  //  useEffect(() => {
-  //   async function getAllBidderRatting() {
-  //     const payload = {
-  // breeder_id: userId,
-  //   user_id: localStorage.getItem("user_user_id"),
-  //   post_id: postId,
-  //     };
-  //     const getBidderRes = await GetRatting(payload);
-  //     setBidrAllRate(getBidderRes.data.data[0]);
-  //   }
-
-  //   getAllBidderRatting();
-  // }, [rating]);
-
-  // const handleRating = async (rate, type) => {
-  //   setRating(rate);
-
-  //   //
-  //   const res = await SetRatting({
-  //     breeder_id: breeder_id,
-  //     user_id: user_id,
-  //     post_id: post_id,
-  //     politeness_rating:
-  //       type == "Politeness" && rate !== null
-  //         ? rate
-  //         : bidrAllRate?.politeness_rating,
-  //     responsive_rating:
-  //       type == "Responsive" && rate !== null
-  //         ? rate
-  //         : bidrAllRate?.responsive_rating,
-  //     communication_rating:
-  //       type == "Communication" && rate !== null
-  //         ? rate
-  //         : bidrAllRate?.communication_rating,
-  //   });
-
-  //   console.log(res.data, "show the data comes");
-  // };
-
-  //
-
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.clipboard.writeText( getFullUrl());
+        // Use the Web Share API to share content (for mobile devices)
+        await navigator.share({
+          title: 'Breeder Details',
+          url: getFullUrl(),
+        });
+      } catch (err) {
+        console.error('Error sharing:', err);
+      }
+    } else {
+      await navigator.clipboard.writeText( getFullUrl());
+    }
+  };
   //
   return (
     <>
@@ -295,26 +283,32 @@ const ContactPetDetails2 = () => {
                     <div className="edit-heartpost">
                       <div className="inner-heartt">
                         <a href="#">
-                          <img
+                          <Image width={15} height={15}
                             src="/images/Nextpet-imgs/newyear-cats-imgs/mail.svg"
                             alt=""
                           />
                         </a>
+                        <div> {postData?.total_contact} </div>
                       </div>
-                      <div className="heart-icon-wrap">
-                        <img
-                          src="/images/Nextpet-imgs/dashboard-imgs/heart-border2.svg"
-                          alt=""
-                          className="active"
-                        />
-                        <img
+                      <div className="inner-heartt" onClick={likeHandler}>
+                        <a>
+                          {postData?.check_like ? 
+                        <Image width={15} height={15}
                           src="/images/Nextpet-imgs/dashboard-imgs/heart-fill.svg"
-                          alt=""
-                        />
+                          alt="heart"
+                        /> : 
+                        <Image width={15} height={15}
+                          src="/images/Nextpet-imgs/dashboard-imgs/heart-border2.svg"
+                          alt="heart"
+                          className="active"
+                        /> 
+                        } 
+                        </a>
+                        <div> {postData?.total_like} </div>
                       </div>
-                      <div className="inner-heartt">
-                        <a href="#" style={{ padding: "7px 4px" }}>
-                          <img
+                      <div className="inner-heartt" onClick={handleShare}>
+                        <a style={{ padding: "7px 4px" }}>
+                          <Image width={15} height={15}
                             src="/images/Nextpet-imgs/dashboard-imgs/share.svg"
                             alt=""
                           />
@@ -585,10 +579,6 @@ const ContactPetDetails2 = () => {
                               Responsive
                             </button>
                             <div className="star-ratings-coming">
-                              {console.log(
-                                responsive_rating,
-                                "hello rating data comes"
-                              )}
                               {responsive_rating}
 
                               {/* <img onClick={()=>ResponsiveRaTing(1)} src="/images/Nextpet-imgs/contacted-imgs/star.svg" alt=""/>

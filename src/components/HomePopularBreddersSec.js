@@ -160,7 +160,7 @@ const HomePopularBreddersSec = ({ slides, onClick }) => {
                               alt=""
                               className="active"
                             />
-                            <span>
+                            <span  style={{left: '50%', transform: 'translateX(-50%)', textAlign: 'center'}}>
                               {slide.like_count ? slide.like_count : 0}
                             </span>
                           </div>
@@ -211,7 +211,7 @@ const HomePopularBreddersSec = ({ slides, onClick }) => {
                               : "Description not available"}
                           </p>
                           <div className="viewmore-wrap">
-                            <h4>11 posts active</h4>
+                            <h4>{slide?.breeder_post_count} posts active</h4>
 
                             <div className="action-wrap" onClick={() => handleViewMore(slide)} style={{fontSize:'14px', color:'#4e4e4e', cursor:'pointer'}}>
                               View More  &gt;

@@ -38,7 +38,7 @@ const SuccessModal = ({ modalIsOpen, closeModal, modalDetails }) => {
     formData.append("user_id", localStorage.getItem("user_user_id"));
     formData.append("post_id", modalDetails.post_id);
     formData.append("breeder_id", modalDetails.breeder_id);
-    formData.append("do_not_show_me", doNotShowMe ? 1 : "false");
+    formData.append("do_not_show_me", doNotShowMe ? 1 : 0);
 
     try {
       await axios.post(
@@ -117,27 +117,22 @@ const PreviouslyContacted = ({ modalIsOpen, closeModal, modalDetails }) => {
   // console.log("checakvalueee44", modalDetails);
 
   const submitContactBreeder = async () => {
-    console.log('okk')
       if (isAuthenticated) {
-        console.log('subitm')
         const formData = new FormData();
 
         if (modalDetails?.breeder_do_not_show_me) {
           formData.append("user_id", localStorage.getItem("user_user_id"));
           formData.append("breeder_id", modalDetails.breeder_id);
-          formData.append(
-            "breeder_do_not_show_me",
-            modalDetails?.breeder_do_not_show_me
-          );
+          formData.append("breeder_do_not_show_me", modalDetails?.breeder_do_not_show_me);
         } else {
           formData.append("user_id", localStorage.getItem("user_user_id"));
           formData.append("post_id", modalDetails.post_id);
           formData.append("breeder_id", modalDetails.breeder_id);
-          formData.append("do_not_show_me", isChecked ? 1 : "false");
+          formData.append("do_not_show_me", isChecked ? 1 : 0);
         }
     
         let apiURL =
-          modalDetails?.breeder_do_not_show_me == 0 || 1 || null
+          modalDetails?.breeder_do_not_show_me 
             ? `${BASE_URL}/api/contact_breeder_user`
             : `${BASE_URL}/api/contact_breeder`;
     

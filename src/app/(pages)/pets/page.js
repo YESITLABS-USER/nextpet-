@@ -247,7 +247,6 @@ console.log(filteredData)
   
   // Logic for pagination
   let petsData = filteredData?.length > 0 ? filteredData : allPets;
-  console.log(petsData, 'petsdata')
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = petsData.slice(indexOfFirstPost, indexOfLastPost);
@@ -474,7 +473,7 @@ console.log(filteredData)
                       alt=""
                       className="active"
                     />
-                    <span>{item?.check_like}</span>
+                    <span style={{left: '50%', transform: 'translateX(-50%)', textAlign: 'center'}}>{item?.check_like}</span>
                   </div>
                 </div>
 

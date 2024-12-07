@@ -155,7 +155,7 @@ const HomeRecentlyPostedSlider = ({ slides, onLike }) => {
                                   height={24} 
                                 />
                               )}
-                              <span>
+                              <span  style={{left: '50%', transform: 'translateX(-50%)', textAlign: 'center'}}>
                                 {slide.total_like ? slide.total_like : 0}
                               </span>
                             </div>

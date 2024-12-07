@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import BASE_URL from "../../../utils/constant";
 import { toast } from "react-toastify";
+import GooglePlacesAutocomplete from "@/src/components/GooglePlacesAutocomplete";
 
 const VerificationCode = () => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -25,6 +26,12 @@ const VerificationCode = () => {
   const [breederUserId, setBreederUserId] = useState(null);
 
   const router = useRouter();
+
+  const handleLocationSelect = (lat, lng, address) => {
+    // setLatitude(lat || '35.1258');
+    // setLongitude(lng || '17.9859');
+    setLocation(address || '')
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -80,21 +87,21 @@ const VerificationCode = () => {
     }
   };
 
-  const getGoogleApiData = async () => {
-    const apiKey = "";
-    const address = "1600 Amphitheatre Parkway, Mountain View, CA";
+  // const getGoogleApiData = async () => {
+  //   const apiKey = "";
+  //   const address = "1600 Amphitheatre Parkway, Mountain View, CA";
 
-    try {
-      await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-          address
-        )}&key=${apiKey}`
-      );
-      // console.log("getgoogleapiData", response.data);
-    } catch (error) {
-      console.error("Error fetching data from Google API", error);
-    }
-  };
+  //   try {
+  //     await axios.get(
+  //       `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+  //         address
+  //       )}&key=${apiKey}`
+  //     );
+  //     // console.log("getgoogleapiData", response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching data from Google API", error);
+  //   }
+  // };
 
   const handleBreederImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -291,12 +298,13 @@ const VerificationCode = () => {
                   height={15}
                   value={location}
                 />
-                <input
+                {/* <input
                   type="text"
                   onChange={getGoogleApiData}
                   placeholder="Location*"
                   required
-                />
+                /> */}
+                <GooglePlacesAutocomplete onLocationSelect={handleLocationSelect} edit={true} getAddress={location || ""} />   
               </label>
 
               <label>

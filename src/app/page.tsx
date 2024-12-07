@@ -30,6 +30,8 @@ function Page() {
     popular_breeder: [],
   });
 
+  console.log(data.trending_pets)
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUserId = localStorage.getItem("user_user_id");
@@ -40,14 +42,14 @@ function Page() {
   useEffect(() => {
     NearYou();
     getHomePageData();
-  }, [userId]);
+  }, []);
 
   const NearYou = async () => {
     try {
       const response = await axios.post(`${BASE_URL}/api/all_post_listing`, {
         user_id: userId,
         latitude: 28.6215001,
-        longitude: 77.3905665,
+        longitude: 77.3905665, 
       });
       setData(response.data);
     } catch (err) {

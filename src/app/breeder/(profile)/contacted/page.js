@@ -28,30 +28,28 @@ const Contacted = () => {
   const [breeder_id, setBreederId] = useState();
   
 
-  // const searchParams = useSearchParams();
-  // const user_id = searchParams.get("user_id");
-  // const post_id = searchParams.get("post_id");
-  // const breeder_id = searchParams.get("breeder_id");
-
   useEffect(() => {
-    // Ensure this block only runs on the client
     if (typeof window !== "undefined") {
       const queryParams = new URLSearchParams(window.location.search);
-
       setUserId(queryParams.get("user_id") || "");
       setPostId(queryParams.get("post_id") || "");
       setBreederId(queryParams.get("breeder_id") || "");
-      
     }
   }, []);
 
   const [bidrAllRate, setBidrAllRate] = useState([]);
 
   useEffect(() => {
+    if (user_id && post_id && breeder_id) {
+      loadData();
+    }
+  }, [user_id, post_id, breeder_id]);
+
+  const loadData = () => {
     ShowNotesFunction();
     GetRattingFunction();
     StatusLeadsBreederDetailsFunction();
-  }, []);
+  };
 
   const StatusLeadsBreederDetailsFunction = async () => {
     try {
@@ -67,7 +65,6 @@ const Contacted = () => {
       if (res?.data?.code === 200) {
         setPageData(res.data);
 
-        // console.log("Success:", res);
       } else {
         console.error("Error in response:", res);
       }
@@ -82,9 +79,7 @@ const Contacted = () => {
       breeder_id: breeder_id,
     };
     const response = await ShowNotes(payload);
-    // console.log("responseresponseresponse", response);
     if (response.data.code === 200) {
-      // console.log("response.data.data : Response New", response.data.data);
       setBreederShowNotes(response.data.data);
     }
   };
@@ -99,7 +94,6 @@ const Contacted = () => {
 
     const response = await AddNotes(payload);
     if (response.data.code === 200) {
-      // console.log("response.data.data : Response New", response.data.data);
       setAddNotes(null);
       ShowNotesFunction();
     }
@@ -114,10 +108,8 @@ const Contacted = () => {
         user_breeder_id: breeder_id,
       };
 
-      // console.log("payload", payload);
-
       const response = await StatusNotesLeadsUpdate(payload);
-      // console.log("StatusNotesLeadsUpdate", response);
+      
 
       if (response.data.code === 200) {
         toast.success("Status Update!");
@@ -136,8 +128,7 @@ const Contacted = () => {
     };
     const response = await GetRatting(payload);
     if (response.data.code === 200) {
-      // console.log("GetRatting GetRatting", response.data.data[0]);
-      setRatingData(response.data.data[0]);
+      setRatingData(response?.data?.data[0]);
     }
   };
 
@@ -148,9 +139,6 @@ const Contacted = () => {
       post_id: post_id,
     };
     const allReatingResponse = await GetRatting(payload);
-
-    // console.log(allReatingResponse.data.data[0]);
-    // return;
 
     if (allReatingResponse.data.code == 200) {
       // console.log("True ::", allReatingResponse.data.data[0]);
@@ -231,11 +219,6 @@ const Contacted = () => {
     );
   }
 
-  // console.log("pageDatapageDatapageData", pageData?.pet_breeder_details?.[0]);
-
-  /// code writeen by rajan
-
-  // get rating
   useEffect(() => {
     async function getAllBidderRatting() {
       const payload = {
@@ -244,8 +227,10 @@ const Contacted = () => {
         post_id: post_id,
       };
       const getBidderRes = await GetRatting(payload);
-      console.log(getBidderRes)
-      setBidrAllRate(getBidderRes?.data?.data[0]);
+      console.log(getBidderRes, 'eghe')
+      if(getBidderRes.data.code == 200) {
+        setBidrAllRate(getBidderRes?.data?.data[0]);
+      }
     }
 
     getAllBidderRatting();
@@ -255,7 +240,7 @@ const Contacted = () => {
     setRating(rate);
 
     //
-    const res = await SetRatting({
+    await SetRatting({
       breeder_id: breeder_id,
       user_id: user_id,
       post_id: post_id,
@@ -273,7 +258,6 @@ const Contacted = () => {
           : bidrAllRate?.communication_rating,
     });
 
-    console.log(res.data, "show the data comes");
   };
 
   return (
@@ -288,12 +272,12 @@ const Contacted = () => {
                     src={
                       pageData.data?.[0].user_image
                         ? pageData.data?.[0].user_image
-                        : ""
+                        : "/images/Nextpet-imgs/Image_not_available.webp"
                     }
                     alt=""
                     width={444}
                     height={232}
-                    loading="lazy"
+                    loading="lazy" style={{border: "1px solid black"}}
                   />
                 </div>
               </div>
@@ -364,19 +348,19 @@ const Contacted = () => {
                     src={
                       pageData?.pet_breeder_details?.[0].image[0]
                         ? pageData?.pet_breeder_details?.[0].image[0]
-                        : ""
+                        : "/images/Nextpet-imgs/Image_not_available.webp"
                     }
                     alt=""
                     loading="lazy"
                     width={444}
-                    height={232}
+                    height={232} style={{border: "1px solid black"}}
                   />
                 </div>
               </div>
               <div className="col-lg-7 col-md-6">
                 <div className="contacted-breeder-content">
                   <div className="contacted-heading">
-                    <h3>Pet Info111</h3>
+                    <h3>Pet Info</h3>
                     <div className="heart-icon-wrap">
                       <Image
                         width={15}
@@ -385,7 +369,7 @@ const Contacted = () => {
                         alt=""
                         className="active"
                       />
-                      <span>
+                      <span  style={{left: '50%', transform: 'translateX(-50%)', textAlign: 'center'}}>
                         {pageData?.pet_breeder_details?.[0].total_like
                           ? pageData?.pet_breeder_details?.[0].total_like
                           : "0"}
@@ -426,7 +410,7 @@ const Contacted = () => {
                 <div className="experience-user-wrap">
                   <div className="experience-heading">
                     <h3>How was your experience with the User?</h3>
-                    <div className="tooltip">
+                    <div className="tooltip"  style={{position:'sticky',zIndex:'99999'}} >
                       <Image
                         width={15}
                         height={15}
