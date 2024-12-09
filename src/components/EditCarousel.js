@@ -60,14 +60,19 @@ const EditCarousel = ({ previousPostImage = [], onEditImage, onDeleteImage, edit
     backgroundColor: "rgba(255, 255, 255, 0.7)",
     borderRadius: "50%",
     padding: "5px",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
   };
 
   const deleteIconStyle = {
     ...iconStyle,
     right: "10px",
-    backgroundColor: "rgba(255, 0, 0, 0.7)",
+    // backgroundColor: "rgba(255, 0, 0, 0.7)",
+    backgroundColor: "white",
     borderRadius: "50%",
     padding: "5px",
+    marginLeft: "10px",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+
   };
 
   const indicatorsStyle = {

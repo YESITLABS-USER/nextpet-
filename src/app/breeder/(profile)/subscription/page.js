@@ -147,7 +147,7 @@ const Subscription = () => {
                           },
                         }}
                       >
-                        <button type="button">Upgrade Plan</button>
+                      {!(activePlan == 'free') && <button type="button">Upgrade Plan</button>}  
                       </Link>
                     )}
                   </div>

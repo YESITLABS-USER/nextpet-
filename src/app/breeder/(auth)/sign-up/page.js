@@ -148,7 +148,7 @@ const SignUp = () => {
 
             <div className="terms-condition-paragraph">
               <p>
-                By signing up, you agree to our <a href="#">Privacy Policy</a>{" "}
+                By signing up, you agree to our <a href="#">Privacy Policy</a>
                 and <a href="#">Terms and Conditions</a>.
               </p>
             </div>
@@ -174,19 +174,19 @@ const SignUp = () => {
                   height={30}
                 />
               </a>
-              <a href="#">
+              {/* <a href="#">
                 <Image
                   src="/images/Nextpet-imgs/breeder-signin-imgs/social3.png"
                   alt="Social 3"
                   width={30}
                   height={30}
                 />
-              </a>
+              </a> */}
             </div>
 
             <div className="dont-have-accountwrap">
               <p>
-                Already have an account?{" "}
+                Already have an account?
                 <Link href={routes.breeder_sign_in}>Sign In</Link>
               </p>
               <p>

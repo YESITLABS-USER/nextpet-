@@ -36,6 +36,7 @@ const Pets = () => {
     post_id: "",
     breeder_id: "",
   });
+  const [ requiredFields, setRequiredFields] = useState(false);
   const [searchItemParam, setSearchItem] = useState('');
 
   const { isAuthenticated } = useAuth();
@@ -149,7 +150,6 @@ const Pets = () => {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/all_pets_listing_without_login`,user);
-          console.log(response, 'rews')
       if (response.data.code === 200) {
         setAllPets(response.data.pets_list_without_login);
       }
@@ -243,7 +243,6 @@ const Pets = () => {
     setAnimalTypeFilter(null);
     setBreedTypeFilter(null);
   }
-console.log(filteredData)
   
   // Logic for pagination
   let petsData = filteredData?.length > 0 ? filteredData : allPets;
@@ -251,15 +250,6 @@ console.log(filteredData)
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = petsData.slice(indexOfFirstPost, indexOfLastPost);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // const openMapInNewTab = () => {
-  //   if (mapLocation?.lat && mapLocation?.lon) {
-  //     const mapUrl = `https://www.google.com/maps?q=${mapLocation.lat},${mapLocation.lon}&hl=es;z=12&output=embed`;
-  //     window.open(mapUrl, "_blank");
-  //   } else {
-  //     alert("Location not available");
-  //   }
-  // };
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -447,6 +437,7 @@ console.log(filteredData)
           </div>
 
           <div className="pets-breeder-cards">
+            {(currentPosts && currentPosts.length < 0) && <p> No data available...</p>}
             {currentPosts?.map((item, index) => (
               <div className="newyear-cat-dog-in" key={index}>
                 <div className="newyear-catimg-wrap">
@@ -454,7 +445,7 @@ console.log(filteredData)
                     width={266}
                     height={200}
                     src={item?.image?.[0] || "/images/Nextpet-imgs/Image_not_available.webp"}
-                    alt=""
+                    alt="Profile Image"
                     loading="lazy" className="home-Image-height"
                   />
                   <div
@@ -600,7 +591,7 @@ console.log(filteredData)
                         control: (provided) => ({
                           ...provided,
                           backgroundColor: "transparent",
-                          border: "2px solid rgb(230 158 1)",
+                          border: `2px solid ${requiredFields && !animalTypeFilter ? 'red' : 'rgb(230 158 1)'}`,
                           borderRadius: "10px",
                         }),
                       }}
@@ -620,7 +611,7 @@ console.log(filteredData)
                         control: (provided) => ({
                           ...provided,
                           backgroundColor: "transparent",
-                          border: "2px solid rgb(230 158 1)",
+                          border: `2px solid ${requiredFields && !breedTypeFilter ? 'red' : 'rgb(230 158 1)'}`,
                           borderRadius: "10px",
                         }),
                       }}
@@ -632,9 +623,18 @@ console.log(filteredData)
                     <div className="d-flex justify-content-center">
                       <button
                         type="button"
-                        data-bs-dismiss="modal"
-                        value="Submit"
-                        onClick={fillterPets}
+                        data-bs-dismiss={animalTypeFilter && breedTypeFilter ? "modal" : ''} // Modal closes only when fields are valid
+                        // disabled={!animalTypeFilter || !breedTypeFilter} // Disable button if fields are invalid
+                        // onClick={fillterPets}
+                        onClick={() => {
+                          if (!animalTypeFilter || !breedTypeFilter) {
+                            setRequiredFields(true);
+                          } else if(animalTypeFilter || breedTypeFilter){
+                            fillterPets();
+                          } else {
+                            setRequiredFields(false);
+                          }
+                        }}
                       >
                         Search
                       </button>

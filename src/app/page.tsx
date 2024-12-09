@@ -14,6 +14,7 @@ import BASE_URL from "../app/utils/constant";
 import { PostLike } from "../app/services/user/post";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import BreederPopup from '../components/BreederPopup'
 
 function Page() {
   const [homePageData, setHomePageData] = useState([]);
@@ -30,27 +31,35 @@ function Page() {
     popular_breeder: [],
   });
 
-  console.log(data.trending_pets)
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUserId = localStorage.getItem("user_user_id");
-      setUserId(storedUserId);
+
+      if(storedUserId){
+        setUserId(storedUserId);
+        NearYou(storedUserId);
+      } else{
+        NearYou();
+      }
     }
+
+    // NearYou();
+    // getHomePageData();
   }, []);
 
   useEffect(() => {
-    NearYou();
+    // NearYou();
     getHomePageData();
-  }, []);
+  }, [userId]);
 
-  const NearYou = async () => {
+  const NearYou = async (userId = '') => {
     try {
       const response = await axios.post(`${BASE_URL}/api/all_post_listing`, {
         user_id: userId,
         latitude: 28.6215001,
         longitude: 77.3905665, 
       });
+
       setData(response.data);
     } catch (err) {
       console.log("error : ", err);
@@ -144,6 +153,7 @@ function Page() {
   return (
     <>
       <ToastContainer />
+      <BreederPopup />
       <Banner homePageData={homePageData} />
       <Slider />
       <Homeabout homePageData={homePageData} />

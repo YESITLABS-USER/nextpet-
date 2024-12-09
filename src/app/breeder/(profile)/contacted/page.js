@@ -286,7 +286,7 @@ const Contacted = () => {
                   <h2>
                     {pageData.data?.[0].user_name
                       ? pageData.data?.[0].user_name
-                      : ""}
+                      : "Name not Available"}
                   </h2>
                   <ul>
                     <li>
@@ -300,7 +300,7 @@ const Contacted = () => {
                       &nbsp;
                       {pageData.data?.[0].user_address
                         ? pageData.data?.[0].user_address
-                        : ""}
+                        : "Address Not Available"}
                     </li>
                     <li>
                       <Image
@@ -313,7 +313,7 @@ const Contacted = () => {
                       <Link href="#" style={{ textDecoration: "underline" }}>
                         {pageData.data?.[0].user_email
                           ? pageData.data?.[0].user_email
-                          : ""}
+                          : "Email Not Available"}
                       </Link>
                     </li>
                     <li>
@@ -325,10 +325,10 @@ const Contacted = () => {
                       />
                       &nbsp;
                       <a href="#">
-                        +1{" "}
+                        +1
                         {pageData.data?.[0].user_phone
                           ? pageData.data?.[0].user_phone
-                          : ""}
+                          : "Not Available"}
                       </a>
                     </li>
                   </ul>
@@ -379,7 +379,7 @@ const Contacted = () => {
                   <p>
                     {pageData?.pet_breeder_details?.[0].breeder_bio
                       ? pageData?.pet_breeder_details?.[0].breeder_bio
-                      : ""}
+                      : "Description Not Available"}
                   </p>
 
                   <div className="viewmore-wrap">
@@ -387,7 +387,7 @@ const Contacted = () => {
                       $
                       {pageData?.pet_breeder_details?.[0].price
                         ? pageData?.pet_breeder_details?.[0].price
-                        : ""}
+                        : "Not Available"}
                     </h4>
                     <div className="action-wrap">
                       <a href="#" onClick={(e) => e.preventDefault()}>
@@ -606,8 +606,8 @@ const Contacted = () => {
                     <div key={index}>
                       <div className="experience-user-wrap">
                         <div className="calender-warp">
-                          <span>
-                            {note.date && moment(note.date).format("MMMM D")}
+                          <span style={{minWidth:'100px'}}>
+                            {note.date && moment(note.date).format("MMMM DD")}
                           </span>
                           <p>{note.notes ? note.notes : ""}</p>
                         </div>

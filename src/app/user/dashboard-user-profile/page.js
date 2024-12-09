@@ -94,15 +94,6 @@ const UserDashboard = () => {
     const { name, email, phone, location, image } = formData;
     let finalLatitude = latitude ? latitude : (formData?.latitude || "35.1258");
     let finalLongitude = longitude ? longitude : (formData?.longitude || "17.9859");
-    
-    console.log(
-      "name, email, phone,location, image",
-      name,
-      email,
-      phone,
-      location,
-      (image && image)
-    );
   
     try {
       const response = await axios.post(
@@ -133,7 +124,6 @@ const UserDashboard = () => {
     }
   };
   
-
   const userPages = {
     page: "profile",
   };

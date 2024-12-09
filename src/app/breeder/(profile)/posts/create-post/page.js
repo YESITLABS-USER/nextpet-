@@ -8,6 +8,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import BASE_URL from "../../../../utils/constant";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const CreatePost = () => {
   // const breederUserId = localStorage.getItem("breeder_user_id");
@@ -26,13 +27,37 @@ const CreatePost = () => {
   const [imageError, setImageError] = useState("");
   const [errorAdditionalRequest, setErrorsAdditionalRequest] = useState(null);
   const [breederUserId, setBreederUserId] = useState(null);
-
+  const [countDetail, setCountDetail] = useState(null);
+  const router = useRouter();
+  
   useEffect(() => {
     if (typeof window !== "undefined") {
       setBreederUserId(localStorage.getItem("breeder_user_id"));
     }
   }, []);
 
+  useEffect(() => {
+    const fetchPostCount = async () => {
+      try {
+        const response = await axios.post(`${BASE_URL}/api/post_count`, {
+          user_breeder_id: breederUserId,
+        });
+  
+        console.log(response);
+  
+        if (response.data.code === 200) {
+          setCountDetail(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching post count:", error);
+      }
+    };
+  
+    if (breederUserId) {
+      fetchPostCount();
+    }
+  }, [breederUserId]);
+  
   // console.log("deliveryAvailability", deliveryAvailability);
   const initialValues = {
     petname: "",
@@ -63,7 +88,7 @@ const CreatePost = () => {
     birthdate: Yup.date().required("Birthdate is required"),
     date_available: Yup.date().required("Date Available is required"),
     animalType: Yup.string().required("Animal type is required"),
-    crtifications: Yup.string().required("Crtifications is required"),
+    crtifications: Yup.string().required("Certification is required"),
     breed: Yup.string().required("Breed type is required"),
     // deliveryAvailability: Yup.number().required(
     //   "Delivery availability is required"
@@ -175,6 +200,7 @@ const CreatePost = () => {
         }
       );
       toast.success('Post Created Successfully');
+      router.push('/breeder/posts')
     } catch (error) {
       console.error("Error submitting post:", error);
     }
@@ -294,7 +320,7 @@ const CreatePost = () => {
                       <div className="formdata-wrap">
                         <p>Name </p>
                         <Field type="text" name="petname" />
-                        <ErrorMessage
+                        <ErrorMessage className="ErrorMessage"
                           name="petname"
                           component="div"
                           style={{ color: "red" }}
@@ -324,7 +350,7 @@ const CreatePost = () => {
                               )
                             }
                           />
-                          <ErrorMessage
+                          <ErrorMessage className="ErrorMessage"
                             name="animalType"
                             component="div"
                             style={{ color: "red" }}
@@ -352,7 +378,7 @@ const CreatePost = () => {
                             setFieldValue("breed", selectedOption.value)
                           }
                         />
-                        <ErrorMessage
+                        <ErrorMessage className="ErrorMessage"
                           name="breed"
                           component="div"
                           style={{ color: "red" }}
@@ -362,7 +388,7 @@ const CreatePost = () => {
                       <div className="formdata-wrap">
                         <p>Price ($)</p>
                         <Field type="text" name="price" />
-                        <ErrorMessage
+                        <ErrorMessage className="ErrorMessage"
                           name="price"
                           component="div"
                           style={{ color: "red" }}
@@ -377,7 +403,7 @@ const CreatePost = () => {
                           <option value="medium">Medium</option>
                           <option value="large">Large</option>
                         </Field>
-                        <ErrorMessage
+                        <ErrorMessage className="ErrorMessage"
                           name="size"
                           component="div"
                           style={{ color: "red" }}
@@ -391,7 +417,7 @@ const CreatePost = () => {
                           <option value="male">Male</option>
                           <option value="female">Female</option>
                         </Field>
-                        <ErrorMessage
+                        <ErrorMessage className="ErrorMessage"
                           name="animalGender"
                           component="div"
                           style={{ color: "red" }}
@@ -401,7 +427,7 @@ const CreatePost = () => {
                       <div className="formdata-wrap">
                         <p>Anticipated Weight (lbs)</p>
                         <Field type="text" name="weight" />
-                        <ErrorMessage
+                        <ErrorMessage className="ErrorMessage"
                           name="weight"
                           component="div"
                           style={{ color: "red" }}
@@ -412,7 +438,7 @@ const CreatePost = () => {
                         <p>Birthdate</p>
                         <Field type="date" name="birthdate" />
 
-                        <ErrorMessage
+                        <ErrorMessage className="ErrorMessage"
                           name="birthdate"
                           component="div"
                           style={{ color: "red" }}
@@ -422,7 +448,7 @@ const CreatePost = () => {
                       <div className="formdata-wrap">
                         <p>Date Available</p>
                         <Field type="date" name="date_available" />
-                        <ErrorMessage
+                        <ErrorMessage className="ErrorMessage"
                           name="date_available"
                           component="div"
                           style={{ color: "red" }}
@@ -451,7 +477,7 @@ const CreatePost = () => {
                       <div className="formdata-wrap">
                         <p>Certifications</p>
                         <Field type="text" name="crtifications" />
-                        <ErrorMessage
+                        <ErrorMessage className="ErrorMessage"
                           name="crtifications"
                           component="div"
                           style={{ color: "red" }}
@@ -475,7 +501,7 @@ const CreatePost = () => {
                           />
                           <label htmlFor="delivery-no">NO</label>
                         </div>
-                        <ErrorMessage
+                        <ErrorMessage className="ErrorMessage"
                           name="deliveryAvailability"
                           component="div"
                           style={{ color: "red" }}
@@ -524,7 +550,7 @@ const CreatePost = () => {
 
                       <div className="posts-btn-wrap">
                         <button type="submit">Post a Pet</button>
-                        <p>4 out of 6 posts remaining</p>
+                          {countDetail && <p> {countDetail?.breeder_post} out of {countDetail?.total_post} posts remaining</p>}
                       </div>
                     </div>
                   </Form>

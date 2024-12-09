@@ -75,9 +75,11 @@ const ContactPetDetails = () => {
   
 
   useEffect(() => {
-    getBreederDetails();
-    getAllRecentPost();
-  }, [breeder_id, userId]);
+    if(breeder_id || userId){
+      getBreederDetails();
+      getAllRecentPost();
+    }
+  }, []);
 
   const getBreederDetails = async () => {
     let apiData = {
@@ -194,10 +196,10 @@ const ContactPetDetails = () => {
                 <div className="breedeerdasboard-createpost-inner">
                   <div className="breedeerdasboard-createpost-left">
                     <div className="breeder-profileinner-wrap">
-                      <img
+                      <Image
                         src={breederDetails?.image || ""}
                         alt="Breeder Profile"
-                        loading="lazy"
+                        loading="lazy" width={250} height={250}
                       />
                     </div>
                   </div>
@@ -252,21 +254,18 @@ const ContactPetDetails = () => {
               currentPosts?.map((item, index) => (
                 <div className="newyear-cat-dog-in" key={index}>
                   <div className="newyear-catimg-wrap">
-                    <img src={item?.image?.[0] || ""} alt="" loading="lazy" />
+                    <Image src={item?.image?.[0] || "/images/Nextpet-imgs/Image_not_available.webp"} alt="" loading="lazy" height={150} width={200} style={{minHeight:'180px', maxHeight:'180px'}} />
 
                     <div
                       className="heart-icon-wrap"
                       onClick={() => handlePostLike(item)}
                       style={{ cursor: "pointer" }}
                     >
-                      <img
-                        src={
-                          item?.check_like == 1
+                      <Image src={ item?.check_like == 1
                             ? "/images/Nextpet-imgs/dashboard-imgs/heart-fill.svg"
-                            : "/images/Nextpet-imgs/dashboard-imgs/heart-border2.svg"
-                        }
-                        alt=""
-                        className="active"
+                            : "/images/Nextpet-imgs/dashboard-imgs/heart-border2.svg" }
+                        alt="like"
+                        className="active" height={15} width={15}
                       />
 
                       <span>{item?.total_like}</span>
@@ -300,7 +299,11 @@ const ContactPetDetails = () => {
                         </div>
                       </div>
                     </div>
-                    <p>{item?.description}</p>
+                    
+                    <p className="pt-1">
+                  {item?.description && item?.description.length > 50 ? item.description.slice(0, 40) + "..." : item?.description || "No Description available"}
+                  </p>
+
 
                     <div className="viewmore-wrap">
                       <h4>${item?.price}</h4>

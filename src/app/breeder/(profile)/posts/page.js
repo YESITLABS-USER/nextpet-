@@ -19,8 +19,8 @@ const Post = () => {
   const [checkedValues, setCheckedValues] = useState({
     All: true,
     Pending: false,
-    Shortlist: false,
-    Archive: false,
+    Shortlisted: false,
+    Archived: false,
     Adopted: false,
   });
   const [breederId, setBreederId] = useState(null);
@@ -105,8 +105,8 @@ const Post = () => {
     let updatedCheckedValues = {
       All: false,
       Pending: false,
-      Shortlist: false,
-      Archive: false,
+      Shortlisted: false,
+      Archived: false,
       Adopted: false,
     };
 
@@ -155,7 +155,7 @@ const Post = () => {
                     <div className="post-apet-wrap">
                       <div className="filter-sec">
                         <button type="button" id="post-a-pet" value="Submit">
-                          <Link href="posts/create-post">Post a Pet</Link>
+                          <Link href="posts/create-post" style={{ color:'black'}}>Post a Pet</Link>
                         </button>
                         <div className="quotes2">
                           <div
@@ -178,8 +178,8 @@ const Post = () => {
                               {[
                                 "All",
                                 "Pending",
-                                "Shortlist",
-                                "Archive",
+                                "Shortlisted",
+                                "Archived",
                                 "Adopted",
                               ].map((option) => (
                                 <div className="filter-data-list" key={option}>
@@ -230,7 +230,7 @@ const Post = () => {
                                   className="active"
                                 />
 
-                                <span>
+                                <span  style={{left: '50%', transform: 'translateX(-50%)', textAlign: 'center'}}>
                                   {post.total_like ? post.total_like : 0}
                                 </span>
                               </div>
@@ -281,7 +281,7 @@ const Post = () => {
                               </div>
                             </div>
                             {/* <p>{post.description ? post.description : ""}</p> */}
-                            <p>
+                            <p style={{width:'85%'}}>
                               {post.description
                                 ? post.description.length > 50
                                   ? `${post.description.slice(0, 50)}...`

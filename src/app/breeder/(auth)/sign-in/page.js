@@ -131,14 +131,14 @@ const SignIn = () => {
                   height={40}
                 />
               </a>
-              <a href="#">
+              {/* <a href="#">
                 <Image
                   src="/images/Nextpet-imgs/breeder-signin-imgs/social3.png"
                   alt="Social 3"
                   width={40}
                   height={40}
                 />
-              </a>
+              </a> */}
             </div>
             <div className="dont-have-accountwrap">
               <p>

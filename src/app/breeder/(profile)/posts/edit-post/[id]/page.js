@@ -38,8 +38,28 @@ const EditPost = () => {
   const [previousPostImage, setPreviousPostImage] = useState([]);
   const [editPostImageLength, setPostImageLength] = useState(null);
   const [editPostPage, setEditPostPage] = useState(false);
+  const [countDetail, setCountDetail] = useState(null);
 
-  // console.log("postDetailsss", health_guarantee);
+  // console.log("postDetailsss", postDetails);
+  
+  useEffect(() => {
+    const fetchPostCount = async () => {
+      try {
+        const response = await axios.post(`${BASE_URL}/api/post_count`, {
+          user_breeder_id: breederUserId,
+        });
+        if (response.data.code === 200) {
+          setCountDetail(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching post count:", error);
+      }
+    };
+  
+    if (breederUserId) {
+      fetchPostCount();
+    }
+  }, [breederUserId]);
 
   const initialValues = {
     description: postDetails?.description || "",
@@ -371,10 +391,12 @@ const EditPost = () => {
                 onDeleteImage={handleDeleteImage}
               />
               {/* {imageError && <p style={{ color: "red" }}>{imageError}</p>} */}
-
-              <div class="error-message">
-                <p>Error: You can only add up to 10 images.</p>
-              </div>
+              {editPostPage && 
+                <div class="error-message" style={{fontStyle:'italic'}}>
+                  <p>Error: You can only add up to 10 images.</p>
+                </div>
+              }
+              
             </div>
             <div className="breedeerdasboard-createpost-right">
               <div className="postcreate-heading">
@@ -388,7 +410,7 @@ const EditPost = () => {
                         loading="lazy"
                       />
                     </a>
-                    <span>55</span>
+                    <span>{postDetails?.total_like}</span>
                   </div>
                   <div className="inner-heartt">
                     <a href="#">
@@ -398,7 +420,7 @@ const EditPost = () => {
                         loading="lazy"
                       />
                     </a>
-                    <span>55</span>
+                    <span>{postDetails?.total_contact}</span>
                   </div>
                   {!editPostPage && (
                     <div className="inner-heartt">
@@ -431,14 +453,14 @@ const EditPost = () => {
                       <ErrorMessage
                         name="description"
                         component="div"
-                        style={{ color: "red" }}
+                        style={{ color: "red"}}
                       />
                     </label>
                     <h4>About Pet-name </h4>
                     <div className="list-post-form">
                       <div className="formdata-wrap">
                         <p>Name </p>
-                        <Field
+                        <Field required="required"
                           type="text"
                           name="petname"
                           disabled={!editPostPage}
@@ -446,7 +468,7 @@ const EditPost = () => {
                         <ErrorMessage
                           name="petname"
                           component="div"
-                          style={{ color: "red" }}
+                          style={{ color: "red"}}
                         />
                       </div>
 
@@ -481,7 +503,7 @@ const EditPost = () => {
                         <ErrorMessage
                           name="animalType"
                           component="div"
-                          style={{ color: "red" }}
+                          style={{ color: "red"}}
                         />
                       </div>
 
@@ -514,13 +536,13 @@ const EditPost = () => {
                         <ErrorMessage
                           name="breed"
                           component="div"
-                          style={{ color: "red" }}
+                          style={{ color: "red"}}
                         />
                       </div>
 
                       <div className="formdata-wrap">
                         <p>Price ($)</p>
-                        <Field
+                        <Field required="required"
                           type="text"
                           name="price"
                           disabled={!editPostPage}
@@ -528,13 +550,13 @@ const EditPost = () => {
                         <ErrorMessage
                           name="price"
                           component="div"
-                          style={{ color: "red" }}
+                          style={{ color: "red"}}
                         />
                       </div>
 
                       <div className="formdata-wrap">
                         <p>General Size</p>
-                        <Field as="select" name="size" disabled={!editPostPage}>
+                        <Field required="required" as="select" name="size" disabled={!editPostPage}>
                           <option value="">Select size</option>
                           <option value="Standard">Standard</option>
                           <option value="Mini">Mini</option>
@@ -543,13 +565,13 @@ const EditPost = () => {
                         <ErrorMessage
                           name="size"
                           component="div"
-                          style={{ color: "red" }}
+                          style={{ color: "red"}}
                         />
                       </div>
 
                       <div className="formdata-wrap">
                         <p>Animal Gender</p>
-                        <Field
+                        <Field required="required"
                           as="select"
                           name="animal_gender"
                           disabled={!editPostPage}
@@ -561,13 +583,13 @@ const EditPost = () => {
                         <ErrorMessage
                           name="animal_gender"
                           component="div"
-                          style={{ color: "red" }}
+                          style={{ color: "red"}}
                         />
                       </div>
 
                       <div className="formdata-wrap">
                         <p>Anticipated Weight (lbs)</p>
-                        <Field
+                        <Field required="required"
                           type="text"
                           name="weight"
                           disabled={!editPostPage}
@@ -575,13 +597,13 @@ const EditPost = () => {
                         <ErrorMessage
                           name="weight"
                           component="div"
-                          style={{ color: "red" }}
+                          style={{ color: "red"}}
                         />
                       </div>
 
                       <div className="formdata-wrap">
                         <p>Birthdate</p>
-                        <Field
+                        <Field required="required"
                           type="date"
                           name="birthdate"
                           disabled={!editPostPage}
@@ -589,13 +611,13 @@ const EditPost = () => {
                         <ErrorMessage
                           name="birthdate"
                           component="div"
-                          style={{ color: "red" }}
+                          style={{ color: "red"}}
                         />
                       </div>
 
                       <div className="formdata-wrap">
                         <p>Date Available</p>
-                        <Field
+                        <Field required="required"
                           type="date"
                           name="date_available"
                           disabled={!editPostPage}
@@ -603,7 +625,7 @@ const EditPost = () => {
                         <ErrorMessage
                           name="date_available"
                           component="div"
-                          style={{ color: "red" }}
+                          style={{ color: "red"}}
                         />
                       </div>
 
@@ -632,15 +654,15 @@ const EditPost = () => {
                       </div>
                       <div className="formdata-wrap">
                         <p>Certifications</p>
-                        <Field
+                        <Field required="required"
                           type="text"
                           name="certification"
                           disabled={!editPostPage}
                         />
                         <ErrorMessage
-                          name="certification"
+                          name="Certification"
                           component="div"
-                          style={{ color: "red" }}
+                          style={{ color: "red"}}
                         />
                       </div>
                       <div className="formdata-wrap">
@@ -715,10 +737,14 @@ const EditPost = () => {
                         </div>
                       </div>
 
+                    {editPostPage && 
                       <div className="posts-btn-wrap">
                         <button type="submit">Post a Pet</button>
-                        <p>4 out of 6 posts remaining</p>
-                      </div>
+                        {/* <p>4 out of 6 posts remaining</p> */}
+                        {countDetail && <p> {countDetail?.breeder_post} out of {countDetail?.total_post} posts remaining</p>}
+
+                      </div>}
+                      
                     </div>
                   </Form>
                 )}

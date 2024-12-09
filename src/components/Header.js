@@ -7,6 +7,7 @@ import "toastr/build/toastr.min.css";
 import BASE_URL from "../app/utils/constant";
 import axios from "axios";
 import { GoClock } from "react-icons/go";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 function Header() {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -192,7 +193,10 @@ function Header() {
                           { userId ? ( userData?.name ? (userData.name.split(" ").length > 10 ? `${userData.name.split(" ").slice(0, 10).join(" ")}...` : userData.name) : "User Profile")
                           : ( userData?.name ? (userData.name.split(" ").length > 10 ? `${userData.name.split(" ").slice(0, 10).join(" ")}...` : userData.name) : "Breeder Profile" ) }
 
-                          <i className="far fa-chevron-down"></i>
+                          {/* <i className="far fa-chevron-down"></i> */}
+                          <span style={{ display: "inline-block", transition: "transform 0.3s ease", transform: `rotate(${isOpen ? 180 : 0}deg)`}}  className="mt-1">
+                            {userId && isOpen ? <FaAngleUp/> : < FaAngleDown/>}
+                          </span>
                         </button>
 
                         <DropdownUserMenu

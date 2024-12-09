@@ -6029,6 +6029,7 @@ img {
       & .headinglead-wrap {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: 37px;
 
         h3 {
@@ -6266,3 +6267,31 @@ img {
     
   }
 }
+.icon-wrapper {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.rotate-up {
+  transform: rotate(180deg);
+}
+
+.rotate-down {
+  transform: rotate(0deg);
+}
+
+.ErrorMessage{
+  position: absolute;
+  right: 60px;
+  padding-top: 5px;
+}
+
+@media screen and (min-width: 768px) {
+  .ErrorMessage{
+    position: absolute;
+    right: 10%;
+  }
+}
+

@@ -60,7 +60,8 @@ const Slider = () => {
                     style={{ flex: `0 0 ${100 / itemsPerPage}%` }}
                   >
                     <div className="banner-cat-in">
-                      <div className="banner-inner-category" style={{cursor:'pointer'}} onClick={() => {router.push(`pets?searchItem=${slide.title}`)}}>
+                      {/* <div className="banner-inner-category" style={{cursor:'pointer'}} onClick={() => {router.push(`pets?searchItem=${slide.title}`)}}> */}
+                      <div className="banner-inner-category">
                         <Image src={slide.src} alt={slide.alt} width={45} height={45} />
                         <a>
                           <h3>{slide.title}</h3>

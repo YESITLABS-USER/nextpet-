@@ -162,20 +162,35 @@ const Homenearyou = ({ slides, onLike }) => {
                        </div>
                       <div className="heading-content">
                         <h3>{slide.name ? slide.name : "Animal"}</h3>
-                        {slide.contacts_colour === 1 ? (
+                        {slide.contacts_colour == 1 ? (
+                          // <div
+                          //   className="mail-boxwrap"
+                          //   onClick={() => handlePreviouslyContactedModal(slide.id, slide.user_breeder_id)}
+                          //   style={{ cursor: 'pointer' }}
+                          // >
+                          //   <Image
+                          //     src="/images/Nextpet-imgs/newyear-cats-imgs/mail.svg"
+                          //     alt="Mail"
+                          //     width={20}
+                          //     height={20} className="bg-white p-2" style={{boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)', borderRadius:"50%"}}
+                          //   />
+                          //   <div className="mail-count" style={{ cursor: 'pointer' }}>
+                          //     <span  style={{left: '50%', transform: 'translateX(-50%)', textAlign: 'center'}}>{slide.total_contact ? slide.total_contact : 0}</span>
+                          //   </div>
+                          // </div>
                           <div
-                            className="mail-boxwrap"
+                            name="mail-boxwrap"
                             onClick={() => handlePreviouslyContactedModal(slide.id, slide.user_breeder_id)}
                             style={{ cursor: 'pointer' }}
                           >
                             <Image
                               src="/images/Nextpet-imgs/newyear-cats-imgs/mail.svg"
                               alt="Mail"
-                              width={20}
-                              height={20} className="bg-white p-2" style={{boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)', borderRadius:"50%"}}
+                              width={35}
+                              height={35} className="bg-white p-2" style={{boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)', borderRadius:"50%"}}
                             />
-                            <div className="mail-count" style={{ cursor: 'pointer' }}>
-                              <span  style={{left: '50%', transform: 'translateX(-50%)', textAlign: 'center'}}>{slide.total_contact ? slide.total_contact : 0}</span>
+                            <div className="text-center pt-[2px] " style={{ cursor: 'pointer', fontSize:'14px' }}>
+                              {slide.total_contact ? slide.total_contact : 0}
                             </div>
                           </div>
                         ) : (

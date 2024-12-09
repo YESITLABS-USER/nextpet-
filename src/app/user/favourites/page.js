@@ -164,9 +164,11 @@ const Favorites = () => {
                           isBreeder ? "pets-breeder-cards" : "all-posts-cards"
                         }
                       >
-                        {favoriteList?.length === 0 && (
-                          <p>No favorites found.</p>
+                        {(!favoriteList || favoriteList.length === 0) && (
+                          <p style={{ margin:'0 auto', padding:'40px 0'}}>No favorites found.</p>
                         )}
+
+                        {console.log(currentPosts, "curr", favoriteList, "fav")}
                         {currentPosts?.map((item, index) =>
                           isBreeder ? (
                             <div
@@ -359,14 +361,14 @@ const Favorites = () => {
                         )}
                       </div>
                     </div>
-                    <div className="influ-pagi">
+                   {favoriteList && <div className="influ-pagi">
                       <Pagination
                         postPerPage={postsPerPage}
                         totalPosts={favoriteList?.length}
                         paginate={paginate}
                         currentPage={currentPage}
                       />
-                    </div>
+                    </div>}
                   </form>
                 </div>
               </div>

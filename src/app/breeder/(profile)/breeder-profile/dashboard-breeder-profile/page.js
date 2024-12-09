@@ -230,6 +230,39 @@ const BreederDashboard = () => {
                           Contact a Coach
                         </button>
                       </div>
+                      <div class="modal fade modal-common" id="contact-coach" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog modal-dialog-edit" role="document">
+                          <div class="modal-content">
+                            <div class="modal-heading">
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style={{ background: 'url(/images/Nextpet-imgs/close-icon.svg', backgroundSize:'contain'}}></button>
+                            </div>
+                            <div class="modal-body">
+                              <form action="">
+                                <div class="conatctcpach-popup-wrap">
+                                  <h1>Contact Coach</h1>
+                                  <div className="coach-form-wrap">
+                                    <input type="text" placeholder="Anna Brown" />
+                                    <input type="text" placeholder="richardbrown78@gmai.com"/>
+                                    <select name="" id="">
+                                      <option value="0">Select animal type</option>
+                                      <option value="0">Cat</option>
+                                    </select>
+                                    <select name="" id="">
+                                      <option value="0">Select breed type</option>
+                                      <option value="0">Cat</option>
+                                    </select>
+                                    <textarea name="" id="" placeholder="Please add details"></textarea>
+                                    <div className="d-flex justify-content-center">
+                                      <button type="button" value="Submit" data-bs-toggle="modal" data-bs-dismiss="close">Send</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </form>
                 </div>

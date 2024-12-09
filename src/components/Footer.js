@@ -124,19 +124,40 @@ function Footer() {
 
       {/* Additional  */}
       {/* Load jQuery before Bootstrap, only if necessary */}
-      <Script src="/js/jquery.js" strategy="afterInteractive" />
+      <Script 
+        src="/js/jquery.js" 
+        strategy="beforeInteractive" 
+      />
       
       {/* Load Bootstrap JS only once and after the page is interactive */}
-      <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"  strategy="afterInteractive" />
+      <Script 
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" 
+        strategy="afterInteractive" 
+      />
       
       {/* Load other custom scripts after page load */}
-      <Script src="/js/custom.js" strategy="afterInteractive" />
-      <Script src="/js/owl-slider.js" strategy="afterInteractive" />
-      <Script src="/js/animation.js" strategy="afterInteractive" />
+      <Script 
+        src="/js/custom.js" 
+        strategy="afterInteractive" 
+      />
+      <Script 
+        src="/js/owl-slider.js" 
+        strategy="afterInteractive" 
+      />
+      <Script 
+        src="/js/animation.js" 
+        strategy="afterInteractive" 
+      />
       
       {/* Optionally include external libraries only after the page is interactive */}
-      {/* <Script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" strategy="afterInteractive" /> */}
-      {/* <Script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" strategy="afterInteractive" /> */}
+      {/* <Script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" 
+        strategy="afterInteractive" 
+      /> */}
+      {/* <Script 
+        src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" 
+        strategy="afterInteractive" 
+      /> */}
       
     </>
   );

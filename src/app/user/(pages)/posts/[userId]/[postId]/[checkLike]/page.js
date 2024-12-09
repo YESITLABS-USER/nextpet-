@@ -64,6 +64,7 @@ const ContactPetDetails = () => {
       console.log("error : ", err);
     }
   };
+  
   const handleModal = ({
     post_id = postData?.post_id,
     breeder_id = postData?.user_id,
@@ -82,6 +83,7 @@ const ContactPetDetails = () => {
     setShowModal(false);
     setShowPreviousModal(false);
   };
+  
   const getFullUrl = () => {
     if (typeof window !== "undefined") {
       return window.location.href; // Returns full URL
@@ -126,7 +128,7 @@ const ContactPetDetails = () => {
               </div>
               <div className="breedeerdasboard-createpost-right">
                 <div className="postcreate-heading">
-                  <h3>{postData?.breeder_name}</h3>
+                  <h3>{postData?.name}</h3>
                   <div className="edit-heartpost">
                     <div className="inner-heartt" onClick={handleModal}>
                       <div className="inner-heartt-div">
@@ -172,8 +174,7 @@ const ContactPetDetails = () => {
                   <label>
                     <p>{postData.description ? postData.description : ""}</p>
                   </label>
-
-                  <h4>{postData.name ? postData.name : ""}</h4>
+                  <h4> About {postData?.name ? postData.name : ""}</h4>
                   <div className="list-post-form">
                     <div className="formdata-wrap">
                       <p>Type</p>
@@ -314,18 +315,20 @@ const ContactPetDetails = () => {
                     </div>
 
                     <div className="posts-btn-wrap">
-                      <a
+                      {/* <a
                         href="#"
                         onClick={handleModal}
                         style={{ cursor: "pointer" }}
                       >
                         Contact Breeder
-                      </a>
+                      </a> */}
+                      <button type="button" onClick={handleModal}  data-bs-target="#breeder-guide2" data-bs-toggle="modal">Contact
+                      Breeder</button>
                     </div>
                   </div>
                 </form>
 
-                <div
+                {/* <div
                   className="modal fade"
                   id="breeder-guide2"
                   tabindex="-1"
@@ -392,7 +395,7 @@ const ContactPetDetails = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

@@ -241,7 +241,7 @@ const HomeRecentlyPostedSlider = ({ slides, onClick }) => {
         .swiper-button-prev,
         .swiper-button-next {
           pointer-events: auto;
-          background-color: white;
+          background-color: #e49a0196;
           color: rgba(0, 0, 0, 0.5);
           padding: 15px 15px;
           font-size: 12px;

@@ -804,7 +804,7 @@ img {
   right: 8px;
   position: absolute;
   top: 8px;
-  background: url(../images/Nextpet-imgs/close-icon.svg);
+  /* background: url(/images/Nextpet-imgs/close-icon.svg); */
   background-size: 19px;
   background-repeat: no-repeat;
   background-position: center;
@@ -1228,7 +1228,7 @@ img {
     input[type="text"] {
       width: 100%;
       height: auto;
-      padding: 10px 13px 10px 13px;
+      padding: 10px 13px 10px 13px !important;
       color: #424242;
       font-size: 16px;
       font-weight: 400;

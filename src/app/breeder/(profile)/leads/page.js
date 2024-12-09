@@ -19,8 +19,8 @@ const Leads = () => {
   const [checkedValues, setCheckedValues] = useState({
     All: true,
     Pending: false,
-    Shortlist: false,
-    Archive: false,
+    Shortlisted: false,
+    Archived: false,
     Adopted: false,
   });
 
@@ -71,8 +71,8 @@ const Leads = () => {
     let updatedCheckedValues = {
       All: false,
       Pending: false,
-      Shortlist: false,
-      Archive: false,
+      Shortlisted: false,
+      Archived: false,
       Adopted: false,
     };
 
@@ -140,8 +140,8 @@ const Leads = () => {
                             {[
                               "All",
                               "Pending",
-                              "Shortlist",
-                              "Archive",
+                              "Shortlisted",
+                              "Archived",
                               "Adopted",
                             ].map((option) => (
                               <div className="filter-data-list" key={option}>
@@ -192,7 +192,7 @@ const Leads = () => {
                                   </span>
                                 </div>
                               </div>
-                              <h4>{lead?.pet_name}</h4>
+                              <h4>Interested in {lead?.pet_name}</h4>
                               <p>{lead?.pet_description}</p>
                               <div className="date-wrap">
                                 <span>
