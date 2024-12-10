@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const router = useRouter();
+  // const router = useRouter();
 
   const slides = [
     { src: "/images/Nextpet-imgs/categories-imgs/cate1.png", alt: "Dog", title: "Dog" },
