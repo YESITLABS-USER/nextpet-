@@ -8,6 +8,7 @@ import BASE_URL from "../app/utils/constant";
 import axios from "axios";
 import { GoClock } from "react-icons/go";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { usePathname } from "next/navigation";
 
 function Header() {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -17,6 +18,9 @@ function Header() {
   const [notificationDetails, setNotificationDetails] = useState(null);
   const [mobileToggleBtn, setMobileToggleBtn] = useState(false);
   const [userData, setUserData] = useState(null);
+
+  const pathname = usePathname();
+  const isActive = (path) => pathname === path;
 
   useEffect(() => {
     const breederId = JSON.parse(localStorage.getItem("breeder_user_id"));
@@ -132,33 +136,29 @@ function Header() {
                   height={50}
                 />
               </Link>
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-              >
-                <span className={"navbar-toggler-icon"} onClick={() => setMobileToggleBtn(!mobileToggleBtn)}></span>
+              <button onClick={() => setMobileToggleBtn((prev) => !prev)} className="navbar-toggler"
+                  type="button" >
+                  <span className="navbar-toggler-icon"></span>
               </button>
-              <div className={mobileToggleBtn ? "navbar-collapse-close" : "collapse navbar-collapse"} id="navbarNav">
+              <div className={`navbar-collapse ${mobileToggleBtn ? "show" : "collapse"}`} id="navbarNav" >
                 <ul className="navbar-nav">
                   <li className="nav-item">
-                    <Link className="nav-link active" href="/">
+                    <Link className={`nav-link ${isActive("/") ? "active" : ''} `} href="/" >
                       Home
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" href="/about-us">
+                    <Link className={`nav-link ${isActive("/about-us") ? "active" : ''} `} href="/about-us">
                       About
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" href="/pets">
+                    <Link className={`nav-link ${isActive("/pets") ? "active" : ''} `} href="/pets">
                       Pets
                     </Link>
                   </li>
                   <li className="nav-item" style={{paddingRight:'10px'}}>
-                    <Link className="nav-link" href="/breeders">
+                    <Link className={`nav-link ${isActive("/breeders") ? "active" : ''} `} href="/breeders">
                       Breeders
                     </Link>
                   </li>

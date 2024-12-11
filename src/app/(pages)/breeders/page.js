@@ -107,6 +107,12 @@ const Breeder = () => {
     setFilteredData(filtered);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   const handlePostLike = async (value) => {
     let checkLikeDislike = value?.like_colour == null ? 1 : 111;
     let likeData = {
@@ -172,6 +178,7 @@ const Breeder = () => {
                       id="search-input"
                       type="text"
                       value={searchQuery}
+                      onKeyDown={handleKeyDown}
                       onChange={handleSearchChange}
                       placeholder="Search by Breeder or Location"
                     />

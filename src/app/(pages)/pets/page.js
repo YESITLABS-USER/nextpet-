@@ -52,9 +52,6 @@ const Pets = () => {
       setSearchItem(searchItemParam || '');  
     }
     if (!searchItemParam) return;
-
-    
-
     const query = searchItemParam.toLowerCase();
     const filtered = allPets.filter((pet) => {
       return (
@@ -275,6 +272,11 @@ const Pets = () => {
     });
     setFilteredData(filtered);
   };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   function handleModel() {
     setDropdownVisible(!isDropdownVisible);
@@ -345,10 +347,11 @@ const Pets = () => {
                       id="search-input"
                       type="text"
                       value={searchQuery}
+                      onKeyDown={handleKeyDown}
                       onChange={handleSearchChange}
                       placeholder="Search by Animal Type, Breed or Location"
                     />
-                    <button onClick={handleSearch}>
+                    <button type="submit" onClick={handleSearch}>
                       <img
                         src="/images/Nextpet-imgs/all-icons/serch2.svg"
                         alt=""
@@ -419,10 +422,10 @@ const Pets = () => {
                 </div>
 
                 <div className="location-filter">
-                  <span style={{ borderRadius: "10px 0 0 10px", color: '#fff', border: 'none', width: '50px', fontWeight: '500', border: '1px solid #d1d1d1', height: '44px', cursor: 'pointer', background: '#fff'}}>
+                  <span style={{ borderRadius: "10px 0 0 10px", color: '#fff', border: 'none', width: '50px', fontWeight: '500', border: '1px solid #d1d1d1', height: '44px', cursor: 'pointer', background: '#fff'}}  onClick={handleAuth} >
                     <MdLocationOn className="fas fa-map-marker-alt"
                       style={{ color: "#e49a01", margin: "12px", cursor: "pointer" }}
-                      size={20} onClick={handleAuth} />
+                      size={20}/>
                   </span>
 
                   <button type="button">
@@ -622,7 +625,7 @@ const Pets = () => {
                     />
                     <div className="d-flex justify-content-center">
                       <button
-                        type="button"
+                        type="submit"
                         data-bs-dismiss={animalTypeFilter && breedTypeFilter ? "modal" : ''} // Modal closes only when fields are valid
                         // disabled={!animalTypeFilter || !breedTypeFilter} // Disable button if fields are invalid
                         // onClick={fillterPets}

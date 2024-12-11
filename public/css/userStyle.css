@@ -423,7 +423,7 @@ img {
 .influ-drop-list-header {
   position: absolute;
   right: 0;
-  z-index: 9;
+  z-index: 402;
   padding: 10px;
   width: max-content;
   border-radius: 5px;
@@ -6352,7 +6352,7 @@ img {
           display: none;
           right: 0 !important;
           width: max-content;
-          z-index: 1;
+          z-index: 401 !important;
         }
 
         input[type="radio"] {
